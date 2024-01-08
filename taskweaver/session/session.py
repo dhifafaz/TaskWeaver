@@ -86,6 +86,9 @@ class Session:
             os.makedirs(self.execution_cwd)
 
         self.logger.info(f"Session {self.session_id} is initialized")
+        
+    # def update_max_internal_chat_round_num(self, max_internal_chat_round_num: int):
+    #     self.max_internal_chat_round_num = max_internal_chat_round_num
 
     def update_session_var(self, variables: Dict[str, str]):
         self.session_var.update(variables)

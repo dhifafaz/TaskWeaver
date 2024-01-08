@@ -4,7 +4,7 @@ from typing import Dict
 
 try:
     import chainlit as cl
-
+    from chainlit.input_widget import Slider
     print("If UI is not started, please go to the folder playground/UI and run `chainlit run app.py` to start the UI")
 except Exception:
     raise Exception(
@@ -17,24 +17,48 @@ sys.path.append(repo_path)
 from taskweaver.app.app import TaskWeaverApp
 from taskweaver.memory.attachment import AttachmentType
 from taskweaver.memory.round import Round
-from taskweaver.session.session import Session
+from taskweaver.session.session import Session, AppSessionConfig
+from taskweaver.config.config_mgt import AppConfigSource
 
-project_path = os.path.join(repo_path, "project")
+# project_path = os.path.join(repo_path, "project")
+project_path = "/home/dhifaf/research/tw/TaskWeaver/test_project"
 app = TaskWeaverApp(app_dir=project_path, use_local_uri=True)
 app_session_dict: Dict[str, Session] = {}
-
 
 @cl.on_chat_start
 async def start():
     user_session_id = cl.user_session.get("id")
     app_session_dict[user_session_id] = app.get_session()
-
+    # print(app_session_dict[user_session_id].config.max_internal_chat_round_num)
+    # settings = await cl.ChatSettings(
+    #     [
+    #         Slider(
+    #             id="max_rounds",
+    #             label="Maximum number of rounds",
+    #             initial=1,
+    #             min=1,
+    #             max=100,
+    #             step=1,
+    #         ),
+    #     ]
+    # ).send()
+    # # after user changes the settings, update the session config
+    # max_rounds = int(settings["max_rounds"])
+    # # update session config of number of rounds
+    # app_session_dict[user_session_id].config.max_internal_chat_round_num = max_rounds
+    # app_session_dict[user_session_id].update_max_internal_chat_round_num(max_rounds)
+    # print(app_session_dict[user_session_id].config.max_internal_chat_round_num)
 
 @cl.on_message
 async def main(message: cl.Message):
     user_session_id = cl.user_session.get("id")
     session = app_session_dict[user_session_id]
 
+    # if 'max_rounds' in globals():
+    #     print(max_rounds)
+    #     AppConfigSource.set_config_value()
+    #     print(session.config.max_internal_chat_round_num)
+        
     def send_message_sync(msg: str) -> Round:
         return session.send_message(msg)
 
@@ -105,3 +129,8 @@ async def main(message: cl.Message):
                     )
                     elements.append(table)
         await cl.Message(content=f"{post.message}", elements=elements).send()
+
+# @cl.on_settings_update
+# async def setup_agent(settings):
+#     global max_rounds
+#     max_rounds = settings.get('max_rounds', 3)

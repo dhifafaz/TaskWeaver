@@ -1,0 +1,22 @@
+{
+    "llm.api_base": "https://api.openai.com/v1",
+    "llm.api_key": "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",
+    "llm.model": "gpt-4-1106-preview",
+    "llm.api_type": "openai",
+    "logging.log_file": "dhifaf.log",
+    "logging.log_folder": "/home/dhifaf/research/tw/logs-tw-test",
+    "plugin.base_path": "/home/dhifaf/research/tw/project/plugins",
+    "planner.prompt_compression": false,
+    "planner.example_base_path": "/home/dhifaf/research/tw/project/planner_examples",
+    "planner.skip_planning": false,
+    "code_generator.example_base_path": "/home/dhifaf/research/tw/project/codeinterpreter_examples",
+    "code_generator.prompt_compression": false,
+    "code_generator.enable_auto_plugin_selection": false,
+    "code_generator.auto_plugin_selection_topk": 3,
+    "session.max_internal_chat_round_num": 1,
+    "session.code_interpreter_only": false,
+    "code_interpreter.code_verification_on": false,
+    "session.plugin_only": false,
+    "round_compressor.rounds_to_compress": 2,
+    "round_compressor.rounds_to_retain": 2
+}
